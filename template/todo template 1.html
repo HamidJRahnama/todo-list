@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Left Panel */
+    .left-panel {
+      width: 30%;
+      padding: 10px;
+      background-color: #ffffff;
+      border-right: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .task-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .task-form input {
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .form-actions button {
+      flex: 1;
+      padding: 8px;
+      cursor: pointer;
+      border: none;
+      color: #fff;
+    }
+
+    .add-btn {
+      background-color: #4caf50;
+    }
+
+    .cancel-btn {
+      background-color: #f44336;
+    }
+
+    .task-list {
+      margin-top: 15px;
+      flex: 1;
+      overflow-y: auto;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+
+    /* Right Panel */
+    .right-panel {
+      width: 70%;
+      padding: 10px;
+      background-color: #fafafa;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .filters select {
+      padding: 5px;
+      font-size: 14px;
+    }
+
+    .categories {
+      display: flex;
+      gap: 10px;
+      flex: 1;
+      overflow-x: auto;
+    }
+
+    .category-column {
+      min-width: 200px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .category-header {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* Task Card */
+    .task-card {
+      position: relative;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-title {
+      font-weight: bold;
+    }
+
+    /* Task Actions */
+    .task-actions {
+      display: none;
+      gap: 6px;
+    }
+
+    .task-card:hover .task-actions {
+      display: flex;
+    }
+
+    .task-done {
+      cursor: pointer;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #f44336;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Task Status Labels */
+    .task-status {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .task-status.todo {
+      background-color: #ff9800;
+    }
+    .task-status.in-progress {
+      background-color: #2196f3;
+    }
+    .task-status.done {
+      background-color: #4caf50;
+    }
+    .task-status.paused {
+      background-color: #9e9e9e;
+    }
+  </style> -->
+</head>
+<body>
+  <!-- header -->
+     <header class="header">
+    <div class="logo">MyTodo</div>
+    <div class="profile">
+      <img src="https://via.placeholder.com/35" alt="profile" class="profile-pic">
+      <div class="profile-info">
+        <span class="profile-name">John Doe</span>
+        <span class="profile-email">john@example.com</span>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="left-panel">
+      <h2>Add Card</h2>
+      <!-- فرم اضافه کردن -->
+      <div class="task-form">
+        <input type="text" placeholder="Card Title" />
+        <div class="form-actions">
+          <button class="add-btn">Add Card</button>
+          <button class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+
+      <!-- لیست کارت‌ها -->
+      <div class="task-list">
+        <div class="task-card">Card 1</div>
+        <div class="task-card">Card 2</div>
+        <div class="task-card">Card 3</div>
+        <div class="task-card">Card 4</div>
+        <div class="task-card">Card 5</div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <h2>Tasks</h2>
+
+      <!-- فیلتر -->
+      <div class="filters">
+        <select>
+          <option value="">All Categories</option>
+        </select>
+        <select>
+          <option value="">All Status</option>
+          <option value="todo">Todo</option>
+          <option value="in-progress">In Progress</option>
+          <option value="done">Done</option>
+          <option value="paused">Paused</option>
+        </select>
+        <select>
+          <option value="">All Priorities</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+
+      <!-- دسته‌بندی‌ها -->
+      <div class="categories">
+        <div class="category-column">
+          <div class="category-header">Work</div>
+          <div class="task-card">
+            <span class="task-title">Taskنننننننننننننننننkk kkkk kkk kkkk k kk kk 1</span>
+            <div class="task-actions">
+              <input type="checkbox" class="task-done" />
+              <button class="delete-btn">✕</button>
+            </div>
+          </div>
+          <div class="task-card">
+            <span class="task-title">task 2 kkkk kkk kkkk k kk kk 1</span>
+            <div class="task-actions">
+              <input type="checkbox" class="task-done" />
+              <button class="delete-btn">✕</button>
+            </div>
+          </div>
+          <div class="task-card">
+            <span class="task-title">Taskنننننننننننننننننkk kkkk kkk kkkk k kk kk 1</span>
+            <div class="task-actions">
+              <input type="checkbox" class="task-done" />
+              <button class="delete-btn">✕</button>
+            </div>
+          </div>
+          <div class="task-card">
+            <span class="task-title">task 2 kkkk kkk kkkk k kk kk 1</span>
+            <div class="task-actions">
+              <input type="checkbox" class="task-done" />
+              <button class="delete-btn">✕</button>
+            </div>
+          </div>
+          <div class="task-card">
+            <span class="task-title">Taskنننننننننننننننننkk kkkk kkk kkkk k kk kk 1</span>
+            <div class="task-actions">
+              <input type="checkbox" class="task-done" />
+              <button class="delete-btn">✕</button>
+            </div>
+          </div>
+          <div class="task-card">
+            <span class="task-title">task 2 kkkk kkk kkkk k kk kk 1</span>
+            <div class="task-actions">
+              <input type="checkbox" class="task-done" />
+              <button class="delete-btn">✕</button>
+            </div>
+          </div>
+          <div class="task-card">
+            <span class="task-title">task 2 kkkk kkk kkkk k kk kk 1</span>
+            <div class="task-actions">
+              <input type="checkbox" class="task-done" />
+              <button class="delete-btn">✕</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="category-column">
+          <div class="category-header">Personal</div>
+          <div class="task-card">Task 3</div>
+        </div>
+
+        <div class="category-column">
+          <div class="category-header">Shopping</div>
+          <div class="task-card">Task 4</div>
+        </div>
+        <div class="category-column">
+          <div class="category-header">Shopping</div>
+          <div class="task-card">Task 4</div>
+        </div>
+        <div class="category-column">
+          <div class="category-header">Shopping</div>
+          <div class="task-card">Task 4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

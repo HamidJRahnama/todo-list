@@ -1,6 +1,27 @@
 import type { Request, Response } from "express";
 import * as categoryService from "./category.service.ts";
 
+export const getCategoriesController = async (req: Request, res: Response) => {
+    
+    try {
+        const userId = req["userId"];
+    
+        if (!userId) return res.status(401).json({ message: "Unauthorized" });
+
+        const categories = await categoryService.getCategories(userId);
+
+        // sanitize response
+        const sanitized = categories.map(cat => ({
+        id: cat._id,
+        name: cat.name,
+        }));
+        res.json(sanitized);
+
+    } catch (err: any) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
 export const createCategoryController = async (req: Request, res: Response) => {
     try {
         const { name } = req.body;
@@ -9,7 +30,12 @@ export const createCategoryController = async (req: Request, res: Response) => {
         if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
         const category = await categoryService.createCategory(name, userId);
-        res.status(201).json(category);
+
+        res.status(201).json({
+            id: category._id,
+            name: category.name,
+        });
+
     } catch (err: any) {
         res.status(400).json({ message: err.message });
     }
@@ -25,7 +51,10 @@ export const updateCategoryController = async (req: Request, res: Response) => {
         if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
         const category = await categoryService.updateCategory(id, name, userId);
-        res.json(category);
+            res.json({
+                id: category._id,
+                name: category.name,
+            });
     } catch (err: any) {
         res.status(400).json({ message: err.message });
     }
@@ -47,16 +76,3 @@ export const deleteCategoryController = async (req: Request, res: Response) => {
     }
 };
 
-export const getCategoriesController = async (req: Request, res: Response) => {
-    
-    try {
-        const userId = req["userId"];
-    
-        if (!userId) return res.status(401).json({ message: "Unauthorized" });
-
-        const categories = await categoryService.getCategories(userId);
-        res.json(categories);
-    } catch (err: any) {
-        res.status(400).json({ message: err.message });
-    }
-};

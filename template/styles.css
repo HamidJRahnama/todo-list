@@ -1,0 +1,230 @@
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .header {
+  height: 60px;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+}
+
+.profile-name {
+  font-weight: bold;
+}
+
+.profile-email {
+  color: #555;
+  font-size: 12px;
+}
+
+
+    .container {
+      display: flex;
+      height: 86vh;
+      /* padding: 20px; */
+      box-sizing: border-box;
+    }
+
+    /* Left Panel */
+    .left-panel {
+      width: 30%;
+      padding: 10px;
+      background-color: #ffffff;
+      border-right: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .task-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .task-form input {
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .form-actions button {
+      flex: 1;
+      padding: 8px;
+      cursor: pointer;
+      border: none;
+      color: #fff;
+    }
+
+    .add-btn {
+      background-color: #4caf50;
+    }
+
+    .cancel-btn {
+      background-color: #f44336;
+    }
+
+    .task-list {
+      margin-top: 15px;
+      flex: 1;
+      overflow-y: auto;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+
+    /* Right Panel */
+    .right-panel {
+      width: 70%;
+      padding: 10px;
+      background-color: #fafafa;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .filters select {
+      padding: 5px;
+      font-size: 14px;
+    }
+
+.categories {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex: 1;
+  overflow-x: auto; /* همچنان دسته‌ها به چپ/راست برن */
+}
+
+.category-column {
+  flex: 1;
+  min-width: 240px;
+  max-width: 250px;       /* ستون‌ها اندازه ثابت داشته باشن */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  max-height: 100%;       /* ارتفاع کل */
+  overflow-y: auto;       /* اسکرول فقط توی ستون */
+}
+
+    .category-header {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* Task Card */
+.task-card {
+  position: relative;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+    .task-title {
+      font-weight: bold;
+    }
+
+    /* Task Actions */
+.task-title {
+  font-weight: bold;
+  word-wrap: break-word;     /* برای مرورگرهای جدید */
+  overflow-wrap: break-word; /* برای مرورگرهای مدرن */
+  white-space: normal;       /* اجازه بده بره خط بعد */
+}
+
+.task-actions {
+  display: none;        /* پیش‌فرض مخفی */
+  gap: 6px;
+  align-items: center;
+}
+
+    .task-card:hover .task-actions {
+      display: flex;
+    }
+
+    .task-done {
+      cursor: pointer;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #f44336;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Task Status Labels */
+    .task-status {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .task-status.todo {
+      background-color: #ff9800;
+    }
+    .task-status.in-progress {
+      background-color: #2196f3;
+    }
+    .task-status.done {
+      background-color: #4caf50;
+    }
+    .task-status.paused {
+      background-color: #9e9e9e;
+    }

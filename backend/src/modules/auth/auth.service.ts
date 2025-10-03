@@ -11,7 +11,7 @@ export const register = async (name: string, email: string, password: string) =>
   await user.save();
 
   const token = encodeToken({ id: user._id, email: user.email });
-  return { user, token };
+  return  token ;
 };
 
 

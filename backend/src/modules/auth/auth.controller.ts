@@ -8,8 +8,8 @@ const SECRET = process.env.JWT_SECRET_KEY || "secret";
 export const registerUser = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
-    const { user, token } = await register(name, email, password);
-    res.status(201).json({ message: "User registered", userId: user._id, token });
+    const  token = await register(name, email, password);
+    res.status(201).json({ message: "User registered" });
   } catch (err: any) {
     res.status(400).json({ message: err.message });
   }

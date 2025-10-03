@@ -8,6 +8,7 @@ import { connectDB } from "./config/db.ts";
 
 import authRoutes from "./modules/auth/auth.routes.ts"
 import categoryRoutes from "./modules/category/category.route.ts"
+import taskRoutes from "./modules/task/task.route.ts"
 
 
 const app = express();
@@ -22,6 +23,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/categorys", categoryRoutes);
+app.use("/api/tasks", taskRoutes);
+
 
 
 app.listen(PORT, async () => {

@@ -14,3 +14,17 @@ export const encodeToken = (payload: object | string) => {
 export const decodeToken = (token: string) => {
   return jwt.verify(token, SECRET);
 };
+
+
+export const sanitizeTask = (task: any) => {
+  return {
+    id: task._id,
+    title: task.title,
+    status: task.status,
+    priority: task.priority,
+    category: {
+      id: task.categoryId._id,
+      name: task.categoryId.name
+    }
+  };
+};
