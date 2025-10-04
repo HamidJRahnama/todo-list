@@ -1,4 +1,3 @@
-// boardsSlice.js
 export const createBoardsSlice = (set) => ({
   boards: [
     {
@@ -12,32 +11,20 @@ export const createBoardsSlice = (set) => ({
             { id: 1, title: "Task 1", status: "in-progress" },
             { id: 2, title: "Task 2", status: "done" },
             { id: 3, title: "Task 3", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
-            { id: 4, title: "Task 4", status: "in-progress" },
           ],
         },
         {
           id: 2,
           name: "Personal",
           tasks: [
-            { id: 3, title: "Task 3", status: "in-progress" },
             { id: 4, title: "Task 4", status: "in-progress" },
+            { id: 5, title: "Task 5", status: "done" },
           ],
         },
         {
           id: 3,
           name: "Shopping",
           tasks: [
-            { id: 5, title: "Task 5", status: "done" },
             { id: 6, title: "Task 6", status: "in-progress" },
             { id: 7, title: "Task 7", status: "in-progress" },
           ],

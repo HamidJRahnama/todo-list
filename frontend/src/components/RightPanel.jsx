@@ -1,26 +1,26 @@
 import React from "react";
-import { Box, Typography, IconButton, useTheme } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Task from "./Task";
 import useStore from "../store/store";
+import Board from "./Board";
 
 const RightPanel = () => {
-  const { boards, toggleBoardTaskStatus, theme, themes } = useStore();
+  const { boards, theme, themes } = useStore();
   const board = boards[0]; // فقط یک بورد فعلاً
-  const muiTheme = themes[theme]; // تم فعلی
+  const muiTheme = themes[theme];
 
   return (
     <Box
       sx={{
         width: "77%",
-        height: "92%",        
+        height: "92%",
         borderRadius: "10px 10px ",
         overflow: "hidden",
-        bgcolor: muiTheme.palette.background.default, // بک‌گراند پنل
+        bgcolor: muiTheme.palette.background.default,
         display: "flex",
         flexDirection: "column",
         boxSizing: "border-box",
@@ -63,49 +63,8 @@ const RightPanel = () => {
         </Box>
       </Box>
 
-      {/* Categories */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          mt: 1,
-          overflowX: "auto",
-          alignItems: "flex-start",
-          flex: 1,
-          px: "16px",
-          pb: "16px",
-        }}
-      >
-        {board.categories.map((category) => (
-          <Box
-            key={category.id}
-            sx={{
-              minWidth: 260,
-              bgcolor: muiTheme.palette.background.paper, // رنگ کارت
-              borderRadius: 1,
-              p: 1,
-              display: "flex",
-              flexDirection: "column",
-              maxHeight: "100%",
-              overflowY: "auto",
-            }}
-          >
-            <Typography fontWeight="bold" mb={1} color={muiTheme.palette.text.primary}>
-              {category.name}
-            </Typography>
-
-            {category.tasks.map((task) => (
-              <Task
-                task={task}
-                key={task.id}
-                onToggle={() =>
-                  toggleBoardTaskStatus(board.id, category.id, task.id)
-                }
-              />
-            ))}
-          </Box>
-        ))}
-      </Box>
+      {/* Board */}
+      <Board board={board} />
     </Box>
   );
 };

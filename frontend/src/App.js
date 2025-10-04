@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
+import Dragndrop from "./pages/Dragndrop.jsx"
+
 function App() {
   const { theme, themes } = useStore();  // اسم تم فعلی
   const muiTheme = themes[theme];
@@ -31,6 +33,10 @@ function App() {
             <Route
               path="/dashboard"
               element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/drag"
+              element={<Dragndrop/>}
             />
             <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>
