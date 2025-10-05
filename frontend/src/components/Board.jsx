@@ -4,6 +4,7 @@ import useStore from "../store/store";
 import CategoryColumn from "./CategoryColumn";
 
 const Board = ({ board }) => {
+  const { toggleBoardTaskStatus } = useStore();
 
   return (
     <Box
