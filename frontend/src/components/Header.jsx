@@ -13,7 +13,6 @@ export default function Header() {
         justifyContent: "space-between",
         alignItems: "center",
         boxSizing: "border-box",
-        // بکگراند هدر شفاف از روت
         bgcolor: alpha(theme.palette.background.rootBackground, 0.7),
         backdropFilter: "blur(8px)",
       }}

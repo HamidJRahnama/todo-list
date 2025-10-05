@@ -10,16 +10,16 @@ const Register = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    // بعدا با Axios به بک‌اند وصل می‌کنیم
+    // it must connect to backend with Axios
     console.log({ name, email, password });
-    navigate("/login"); // بعد از ثبت‌نام موفق
+    navigate("/login"); 
   };
 
   return (
     <Box
       sx={{
         minHeight: "100vh",
-        bgcolor: "#ffffff", // پس‌زمینه کلی
+        bgcolor: "#ffffff", 
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -31,13 +31,13 @@ const Register = () => {
           width: 360,
           p: 3,
           borderRadius: "16px",
-          bgcolor: "#d6e5fd", // رنگ پنل
+          bgcolor: "#d6e5fd", 
           display: "flex",
           flexDirection: "column",
           gap: 2,
         }}
       >
-        {/* هدر شیشه‌ای */}
+
         <Box
           sx={{
             bgcolor: "rgba(255, 255, 255, 0.7)",
@@ -55,7 +55,7 @@ const Register = () => {
           </Typography>
         </Box>
 
-        {/* فرم */}
+        
         <Box component="form" onSubmit={handleRegister} sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField
             label="Name"

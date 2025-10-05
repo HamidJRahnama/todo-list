@@ -1,11 +1,10 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
-import Task from "./Task";
+import { Box } from "@mui/material";
 import useStore from "../store/store";
+import CategoryColumn from "./CategoryColumn";
 
 const Board = ({ board }) => {
-  const { toggleBoardTaskStatus, theme, themes } = useStore();
-  const muiTheme = themes[theme];
+  const { toggleBoardTaskStatus } = useStore();
 
   return (
     <Box
@@ -21,37 +20,12 @@ const Board = ({ board }) => {
       }}
     >
       {board.categories.map((category) => (
-        <Box
+        <CategoryColumn
           key={category.id}
-          sx={{
-            minWidth: 260,
-            bgcolor: muiTheme.palette.background.paper,
-            borderRadius: 1,
-            p: 1,
-            display: "flex",
-            flexDirection: "column",
-            maxHeight: "100%",
-            overflowY: "auto",
-          }}
-        >
-          <Typography
-            fontWeight="bold"
-            mb={1}
-            color={muiTheme.palette.text.primary}
-          >
-            {category.name}
-          </Typography>
-
-          {category.tasks.map((task) => (
-            <Task
-              task={task}
-              key={task.id}
-              onToggle={() =>
-                toggleBoardTaskStatus(board.id, category.id, task.id)
-              }
-            />
-          ))}
-        </Box>
+          category={category}
+          boardId={board.id}
+          onToggleTask={toggleBoardTaskStatus}
+        />
       ))}
     </Box>
   );

@@ -1,8 +1,8 @@
-// store/slices/themeSlice.js
+
 import themes from "../../theme";
 
 export const createThemeSlice = (set) => ({
-  theme: localStorage.getItem("appTheme") || "light", // مقدار ذخیره‌شده
+  theme: localStorage.getItem("appTheme") || "light", 
   themes,
   setTheme: (themeName) => {
     localStorage.setItem("appTheme", themeName);

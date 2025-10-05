@@ -10,7 +10,7 @@ import Board from "./Board";
 
 const RightPanel = () => {
   const { boards, theme, themes } = useStore();
-  const board = boards[0]; // فقط یک بورد فعلاً
+  const board = boards[0]; 
   const muiTheme = themes[theme];
 
   return (

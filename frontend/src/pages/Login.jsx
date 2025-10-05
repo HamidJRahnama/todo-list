@@ -13,9 +13,9 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // بعدا با Axios به بک‌اند وصل می‌کنیم
+    // it must connect to backend with Axios
     console.log({ email, password });
-    navigate("/dashboard"); // بعد از لاگین موفق
+    navigate("/dashboard"); // after login
   };
 
   return (
@@ -41,7 +41,6 @@ const Login = () => {
           gap: 2,
         }}
       >
-        {/* هدر شیشه‌ای */}
         <Box
           sx={{
             bgcolor: `linear-gradient(rgba(255,255,255,0.6), ${muiTheme.palette.background.panel})`,
@@ -59,7 +58,7 @@ const Login = () => {
           </Typography>
         </Box>
 
-        {/* فرم */}
+        
         <Box
           component="form"
           onSubmit={handleLogin}

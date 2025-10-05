@@ -7,11 +7,17 @@ import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";  
 import useStore from "../store/store";
 import { useTheme } from "@mui/material/styles";
+import { useDroppable } from "@dnd-kit/core";
 
 const LeftPanel = () => {
   const theme = useTheme();
   const { inbox, addTaskToInbox, toggleInboxTaskStatus } = useStore();
   const [taskTitle, setTaskTitle] = useState("");
+
+  
+  const { setNodeRef } = useDroppable({
+    id: 'inbox',
+  });
 
   const handleAddTask = () => {
     if (taskTitle.trim() === "") return;
@@ -88,35 +94,43 @@ const LeftPanel = () => {
             "& .MuiInputLabel-root": { color: theme.palette.text.secondary },
           }}
         />
-       <Box sx={{ display: "flex", gap: 1 }}>
-  <Button
-    variant="contained"
-    fullWidth
-    onClick={handleAddTask}
-    sx={{
-      bgcolor: theme.palette.primary.main,
-      "&:hover": { bgcolor: theme.palette.primary.dark },
-    }}
-  >
-    Add Card
-  </Button>
-  <Button
-    variant="text"  // فقط متن، بدون bgcolor و border
-    fullWidth
-    onClick={handleCancel}
-    sx={{
-      color: theme.palette.text.primary, // رنگ متن بر اساس theme
-      "&:hover": { bgcolor: theme.palette.secondary.main }, // حالت hover بدون تغییر رنگ
-    }}
-  >
-    Cancel
-  </Button>
-</Box>
-
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={handleAddTask}
+            sx={{
+              bgcolor: theme.palette.primary.main,
+              "&:hover": { bgcolor: theme.palette.primary.dark },
+            }}
+          >
+            Add Card
+          </Button>
+          <Button
+            variant="text"
+            fullWidth
+            onClick={handleCancel}
+            sx={{
+              color: theme.palette.text.primary,
+              "&:hover": { bgcolor: theme.palette.secondary.main },
+            }}
+          >
+            Cancel
+          </Button>
+        </Box>
       </Box>
 
       {/* Cards */}
-      <Box sx={{ mt: 2, flex: 1, overflowY: "auto", borderTop: `1px solid ${theme.palette.divider}`, pt: 1 }}>
+      <Box 
+        ref={setNodeRef}
+        sx={{ 
+          mt: 2, 
+          flex: 1, 
+          overflowY: "auto", 
+          borderTop: `1px solid ${theme.palette.divider}`, 
+          pt: 1 
+        }}
+      >
         {inbox.length === 0 ? (
           <Typography variant="body2" color={theme.palette.text.secondary}>
             No cards yet

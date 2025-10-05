@@ -12,18 +12,18 @@ import Register from "./pages/Register";
 import Dragndrop from "./pages/Dragndrop.jsx"
 
 function App() {
-  const { theme, themes } = useStore();  // اسم تم فعلی
+  const { theme, themes } = useStore();  
   const muiTheme = themes[theme];
 
-  const isAuthenticated = true; // بعدا با Zustand مدیریت می‌کنیم
+  const isAuthenticated = true; 
 
   return (
     <ThemeProvider theme={muiTheme}>
-      <CssBaseline /> {/* ریست رنگ و بک‌گراند */}
+      <CssBaseline /> 
       <Box
         sx={{
           minHeight: "100vh",
-          bgcolor: muiTheme.palette.background.rootBackground, // بک‌گراند کل روت
+          bgcolor: muiTheme.palette.background.rootBackground, 
         }}
       >
         <Router>

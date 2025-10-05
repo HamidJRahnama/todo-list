@@ -117,7 +117,6 @@ export default function DndBoard() {
         ))}
       </Box>
 
-      {/* این Task هنگام Drag روی همه شناور می‌شود */}
       <DragOverlay>
         {activeTask ? <Paper sx={{ p: 1 }}>{activeTask.title}</Paper> : null}
       </DragOverlay>
