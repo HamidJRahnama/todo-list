@@ -26,7 +26,6 @@ const CategoryColumn = ({ category, boardId, onToggleTask }) => {
         overflowY: "auto",
       }}
     >
-        <button onClick={()=>console.log(category)}>log {category.name} data</button>
       <Typography
         fontWeight="bold"
         mb={1}
