@@ -33,11 +33,11 @@ export default function Header() {
 
       {/* Profile */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Avatar
+        {/* <Avatar
           src="https://via.placeholder.com/35"
           alt="profile"
           sx={{ width: 35, height: 35 }}
-        />
+        /> */}
         <Box sx={{ display: "flex", flexDirection: "column", fontSize: "13px" }}>
           <Typography sx={{ fontWeight: "bold", lineHeight: 1 }}>
             John Doe

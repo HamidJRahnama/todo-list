@@ -42,12 +42,12 @@ const RightPanel = () => {
           <Typography variant="h6" color={muiTheme.palette.text.primary}>
             {board.name}
           </Typography>
-          <IconButton size="small" sx={{ color: muiTheme.palette.text.primary }}>
+          {/* <IconButton size="small" sx={{ color: muiTheme.palette.text.primary }}>
             <AddIcon />
-          </IconButton>
+          </IconButton> */}
         </Box>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        {/* <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <IconButton size="small" sx={{ color: muiTheme.palette.text.primary }}>
             <FilterListIcon />
           </IconButton>
@@ -60,7 +60,7 @@ const RightPanel = () => {
           <IconButton size="small" sx={{ color: muiTheme.palette.text.primary }}>
             <MoreVertIcon />
           </IconButton>
-        </Box>
+        </Box> */}
       </Box>
 
       {/* Board */}

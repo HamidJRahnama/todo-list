@@ -49,7 +49,28 @@ export const createBoardsSlice = (set) => ({
             }
           : b
       ),
-    })),
+  })),
+  editBoardTask: (boardId, categoryId, taskId, newTitle) =>
+  set((state) => ({
+    boards: state.boards.map((b) =>
+      b.id === boardId
+        ? {
+            ...b,
+            categories: b.categories.map((c) =>
+              c.id === categoryId
+                ? {
+                    ...c,
+                    tasks: c.tasks.map((t) =>
+                      t.id === taskId ? { ...t, title: newTitle } : t
+                    ),
+                  }
+                : c
+            ),
+          }
+        : b
+    ),
+  })),
+
 
   toggleBoardTaskStatus: (boardId, categoryId, taskId) =>
     set((state) => ({

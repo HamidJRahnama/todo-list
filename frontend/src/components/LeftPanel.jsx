@@ -1,33 +1,41 @@
-// LeftPanel.jsx
-import React, { useState } from "react";
-import { Box, TextField, Button, Typography, IconButton } from "@mui/material";
+import React, { useState, useRef } from "react";
+import { Box, Typography } from "@mui/material";
 import Task from "./Task";
-import FilterListIcon from "@mui/icons-material/FilterList"; 
-import ShareIcon from "@mui/icons-material/Share";         
-import MoreVertIcon from "@mui/icons-material/MoreVert";  
+import AddTaskForm from "./AddTaskForm";
+import EditTaskForm from "./EditTaskForm";
 import useStore from "../store/store";
 import { useTheme } from "@mui/material/styles";
 import { useDroppable } from "@dnd-kit/core";
 
 const LeftPanel = () => {
   const theme = useTheme();
-  const { inbox, addTaskToInbox, toggleInboxTaskStatus } = useStore();
+  const { inbox, addTaskToInbox, toggleInboxTaskStatus, editInboxTask } = useStore();
+
   const [taskTitle, setTaskTitle] = useState("");
+  const [editingTask, setEditingTask] = useState(null); // currently editing task
+  const taskRefs = useRef({}); // optional: to get task DOM position
 
-  
-  const { setNodeRef } = useDroppable({
-    id: 'inbox',
-  });
+  const { setNodeRef } = useDroppable({ id: "inbox" });
 
+  // Add new task
   const handleAddTask = () => {
     if (taskTitle.trim() === "") return;
-
     const newTask = { id: Date.now(), title: taskTitle, status: "in-progress" };
     addTaskToInbox(newTask);
     setTaskTitle("");
   };
 
-  const handleCancel = () => setTaskTitle("");
+  const handleCancelAdd = () => setTaskTitle("");
+
+  // Save edited task
+  const handleSaveTask = (newTitle) => {
+    if (!editingTask) return;
+    editInboxTask(editingTask.id, newTitle); // call store action to update task
+    setEditingTask(null);
+  };
+
+  // Cancel editing
+  const handleCancelEdit = () => setEditingTask(null);
 
   return (
     <Box
@@ -35,7 +43,7 @@ const LeftPanel = () => {
         width: "30%",
         height: "92%",
         p: 2,
-        borderRadius: "10px 10px ",
+        borderRadius: "10px 10px",
         overflow: "hidden",
         bgcolor: theme.palette.background.default,
         borderRight: `1px solid ${theme.palette.divider}`,
@@ -61,74 +69,34 @@ const LeftPanel = () => {
           zIndex: 1,
         }}
       >
-        <Typography variant="h6" color={theme.palette.text.primary}>Inbox</Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <IconButton size="small" sx={{ color: theme.palette.text.primary }}>
-            <FilterListIcon />
-          </IconButton>
-          <IconButton size="small" sx={{ color: theme.palette.text.primary }}>
-            <ShareIcon />
-          </IconButton>
-          <IconButton size="small" sx={{ color: theme.palette.text.primary }}>
-            <MoreVertIcon />
-          </IconButton>
-        </Box>
+        <Typography variant="h6" color={theme.palette.text.primary}>
+          Inbox
+        </Typography>
       </Box>
 
       <Box sx={{ height: "48px" }} />
 
-      {/* Form */}
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-        <TextField
-          label="Card Title"
-          value={taskTitle}
-          onChange={(e) => setTaskTitle(e.target.value)}
-          size="small"
-          variant="outlined"
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              color: theme.palette.text.primary,
-              "& fieldset": { borderColor: theme.palette.divider },
-              "&:hover fieldset": { borderColor: theme.palette.primary.main },
-            },
-            "& .MuiInputLabel-root": { color: theme.palette.text.secondary },
-          }}
-        />
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={handleAddTask}
-            sx={{
-              bgcolor: theme.palette.primary.main,
-              "&:hover": { bgcolor: theme.palette.primary.dark },
-            }}
-          >
-            Add Card
-          </Button>
-          <Button
-            variant="text"
-            fullWidth
-            onClick={handleCancel}
-            sx={{
-              color: theme.palette.text.primary,
-              "&:hover": { bgcolor: theme.palette.secondary.main },
-            }}
-          >
-            Cancel
-          </Button>
-        </Box>
-      </Box>
+      {/* Add Task Form */}
+      <AddTaskForm
+        taskTitle={taskTitle}
+        onChange={(e) => setTaskTitle(e.target.value)}
+        onAddTask={handleAddTask}
+        onCancel={handleCancelAdd}
+      />
 
-      {/* Cards */}
-      <Box 
+      {/* Tasks */}
+      <Box
         ref={setNodeRef}
-        sx={{ 
-          mt: 2, 
-          flex: 1, 
-          overflowY: "auto", 
-          borderTop: `1px solid ${theme.palette.divider}`, 
-          pt: 1 
+        sx={{
+          pt: 1,
+          flex: 1,
+          position: "relative",
+          overflowY: "auto",
+          overflowX: "hidden",
+          borderTop: `1px solid ${theme.palette.divider}`,
+          scrollbarWidth: "none",
+          "&::-webkit-scrollbar": { display: "none" },
+          "&:has([data-dragging='true'])": { overflow: "hidden" },
         }}
       >
         {inbox.length === 0 ? (
@@ -137,7 +105,36 @@ const LeftPanel = () => {
           </Typography>
         ) : (
           inbox.map((task) => (
-            <Task key={task.id} task={task} onToggle={() => toggleInboxTaskStatus(task.id)} />
+         <Box key={task.id} sx={{ position: "relative" }}>
+    <Task
+      task={task}
+      onToggle={() => toggleInboxTaskStatus(task.id)}
+      onEdit={() => setEditingTask(task)}
+    />
+
+    {editingTask?.id === task.id && (
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 10,
+          bgcolor: theme.palette.background.paper,
+          p: 0.5,
+        }}
+      >
+        <EditTaskForm
+          title={editingTask.title}       // pass current task title
+          onSave={(newTitle) => {
+            editInboxTask(editingTask.id, newTitle); // update store
+            setEditingTask(null);                     // close edit form
+          }}
+          onCancel={() => setEditingTask(null)}
+        />
+      </Box>
+    )}
+  </Box>
           ))
         )}
       </Box>
