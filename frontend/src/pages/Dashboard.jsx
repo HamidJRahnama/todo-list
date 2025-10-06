@@ -22,11 +22,12 @@ const Dashboard = () => {
   const {
     moveTask,
     inbox,
-    boards,
     addTaskToInbox,
     toggleInboxTaskStatus,
-    toggleBoardTaskStatus,
     editInboxTask,
+    boards,
+    toggleBoardTaskStatus,
+    editBoardTask ,
     theme: storeTheme,
     themes,
   } = useStore();
@@ -85,7 +86,16 @@ const Dashboard = () => {
     if (isInboxTask) {
       editInboxTask(taskId, newTitle);
     } else {
-      console.log(`Editing board task ${taskId} to "${newTitle}" (function not implemented in store)`);
+      // Find the board and category for this task
+      for (const board of boards) {
+        for (const category of board.categories) {
+          if (category.tasks.some((t) => t.id === taskId)) {
+            // Call the editBoardTask function with the correct parameters
+            editBoardTask(board.id, category.id, taskId, newTitle);
+            break;
+          }
+        }
+      }
     }
     setEditingTask(null);
   };

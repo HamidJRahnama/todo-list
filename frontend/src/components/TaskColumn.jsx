@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import Task from "./Task";
 import EditTaskForm from "./EditTaskForm";
@@ -18,6 +18,21 @@ const TaskColumn = ({
   onCancelEdit,
 }) => {
   const theme = useTheme();
+  const [isFocused, setIsFocused] = useState(false);
+  const containerRef = useRef(null);
+  const inputRef = useRef(null);
+
+  // Handle clicks outside the form to hide buttons
+  const handleClickOutside = (e) => {
+    if (containerRef.current && !containerRef.current.contains(e.target)) {
+      setIsFocused(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // ✅ هوک در سطح بالای کامپوننت فراخوانی شده است. این کار صحیح است.
   const { setNodeRef } = useDroppable({ id: column.id });
@@ -67,25 +82,76 @@ const TaskColumn = ({
 
       {/* Add Task Form (فقط برای اینباکس) */}
       {column.type === "inbox" && (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 1 }}>
+        <Box
+          ref={containerRef}
+          component="form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            onAddTask?.();
+            // Keep focus on the input after adding a task
+            inputRef.current?.focus();
+          }}
+          sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 1 }}
+        >
           <TextField
+            inputRef={inputRef}
             label="Card Title"
             size="small"
             value={newTaskTitle}
             onChange={onNewTaskTitleChange}
+            onFocus={() => setIsFocused(true)}
             sx={{
               "& .MuiOutlinedInput-root": {
                 color: theme.palette.text.primary,
                 "& fieldset": { borderColor: theme.palette.divider },
+                "&:hover fieldset": { borderColor: theme.palette.primary.main },
               },
               "& .MuiInputLabel-root": { color: theme.palette.text.secondary },
             }}
           />
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Button variant="contained" onClick={onAddTask}>
+          <Box
+            sx={{
+              display: "flex",
+              alignSelf: "flex-start",
+              my: 1,
+              // gap: 1,
+              overflow: "hidden",
+              maxHeight: isFocused ? 40 : 0,
+              opacity: isFocused ? 1 : 0,
+              transition: "all 0.3s ease",
+            }}
+          >
+            <Button
+              type="submit"
+              size="small"
+              variant="contained"
+              sx={{
+                width: 100,
+                height: 30,
+                fontSize: 12,
+                fontWeight: "600",
+                bgcolor: theme.palette.primary.main,
+                "&:hover": { bgcolor: theme.palette.primary.dark },
+              }}
+            >
               Add Card
             </Button>
-            <Button variant="text" onClick={onCancelAdd}>
+            <Button
+              type="button"
+              variant="text"
+              sx={{
+                width: 100,
+                height: 30,
+                fontSize: 12,
+                fontWeight: "600",
+                color: theme.palette.text.primary,
+                "&:hover": { bgcolor: theme.palette.action.hover },
+              }}
+              onClick={() => {
+                onCancelAdd?.();
+                setIsFocused(false);
+              }}
+            >
               Cancel
             </Button>
           </Box>
