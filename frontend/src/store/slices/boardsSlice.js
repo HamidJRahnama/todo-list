@@ -8,27 +8,24 @@ export const createBoardsSlice = (set) => ({
           id: 1,
           name: "Work",
           tasks: [
-            { id: 7, title: "Work => Task 1", status: "in-progress" },
-            { id: 8, title: "Work => Task 2", status: "done" },
-            { id: 9, title: "Work => Task 3", status: "in-progress" },
+            { id: 7, title: "Task 1", status: "in-progress" },
+            { id: 8, title: "Task 2", status: "done" },
+            { id: 9, title: "Task 3", status: "in-progress" },
           ],
         },
         {
           id: 2,
           name: "Personal",
           tasks: [
-            { id: 10, title: "Personal => Task 1", status: "in-progress" },
-            { id: 11, title: "Personal => Task 4", status: "in-progress" },
-            { id: 12, title: "Personal => Task 5", status: "done" },
+            { id: 10, title: "Task 1", status: "in-progress" },
+            { id: 11, title: "Task 4", status: "in-progress" },
           ],
         },
         {
           id: 3,
           name: "Shopping",
           tasks: [
-            { id: 13, title: "Shopping => Task 1", status: "in-progress" },
-            { id: 14, title: "Shopping => Task 6", status: "in-progress" },
-            { id: 15, title: "Shopping => Task 7", status: "in-progress" },
+            { id: 13, title: "Task 1", status: "in-progress" },
           ],
         },
       ],
