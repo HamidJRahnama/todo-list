@@ -26,8 +26,8 @@ const EditTaskForm = ({ title, onSave, onCancel }) => {
       }}
       sx={{
         display: "flex",
-        flexDirection: "column", // ✅ تغییر جهت به عمودی
-        gap: 2.5, // ✅ افزایش فاصله بین اینپوت و دکمه‌ها
+        flexDirection: "column", 
+        gap: 2.5,
         width: "100%",
       }}
     >
@@ -47,7 +47,7 @@ const EditTaskForm = ({ title, onSave, onCancel }) => {
         }}
       />
       
-      {/* ✅ کانتینر جدید برای دکمه‌ها */}
+      
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
         <Button
           type="submit"

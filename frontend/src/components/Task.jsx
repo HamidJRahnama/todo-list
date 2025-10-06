@@ -62,7 +62,7 @@ const Task = ({ task, onToggle, isOverlay , onEdit }) => {
     }}
     sx={{
       position: "absolute",
-      left: isHoverActive ? 0 : -28, // slide from left
+      left: isHoverActive ? 0 : -28, 
       opacity: isHoverActive ? 1 : 0,
       transition: "all 0.3s ease",
       "& .MuiSvgIcon-root": { borderRadius: "50%" },

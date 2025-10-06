@@ -1,15 +1,11 @@
-// App.js
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider, CssBaseline, Box } from "@mui/material";
 import useStore from "./store/store";
-import themes from "./theme";
-
-import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
-import Dragndrop from "./pages/Dragndrop.jsx"
+import Dashboard from "./pages/Dashboard.jsx";
 
 function App() {
   const { theme, themes } = useStore();  
@@ -33,10 +29,6 @@ function App() {
             <Route
               path="/dashboard"
               element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/drag"
-              element={<Dragndrop/>}
             />
             <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>

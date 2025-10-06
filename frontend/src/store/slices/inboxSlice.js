@@ -17,7 +17,6 @@ export const createInboxSlice = (set) => ({
       ),
     })),
 
-  // ✅ New edit function
   editInboxTask: (taskId, newTitle) =>
     set((state) => ({
       inbox: state.inbox.map((t) =>

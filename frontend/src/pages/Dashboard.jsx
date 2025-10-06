@@ -1,4 +1,3 @@
-// pages/Dashboard.jsx
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 import Header from "../components/Header";
@@ -18,7 +17,7 @@ import { useTheme } from "@mui/material/styles";
 import useStore from "../store/store";
 
 const Dashboard = () => {
-  const theme = useTheme();
+
   const {
     moveTask,
     inbox,
@@ -185,18 +184,17 @@ const Dashboard = () => {
         </Box>
 
         {/* --- Backdrop --- */}
-        {/* ✅ این بخش جدید اضافه شده است */}
         {editingTask && (
           <Box
-            onClick={() => setEditingTask(null)} // با کلیک روی بک‌دراپ، ویرایش لغو می‌شود
+            onClick={() => setEditingTask(null)} 
             sx={{
               position: "fixed",
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
-              bgcolor: "rgba(0, 0, 0, 0.5)", // رنگ تار با شفافیت
-              zIndex: 9, // زیر فرم ویرایش (zIndex: 10) و بالای محتوای اصلی
+              bgcolor: "rgba(0, 0, 0, 0.5)", 
+              zIndex: 9, 
             }}
           />
         )}

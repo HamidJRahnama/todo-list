@@ -34,7 +34,6 @@ const TaskColumn = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ✅ هوک در سطح بالای کامپوننت فراخوانی شده است. این کار صحیح است.
   const { setNodeRef } = useDroppable({ id: column.id });
 
   return (
@@ -80,7 +79,7 @@ const TaskColumn = ({
 
       <Box sx={{ height: "48px" }} />
 
-      {/* Add Task Form (فقط برای اینباکس) */}
+      
       {column.type === "inbox" && (
         <Box
           ref={containerRef}
