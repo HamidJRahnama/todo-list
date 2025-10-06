@@ -1,39 +1,50 @@
 // pages/Dashboard.jsx
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import LeftPanel from "../components/LeftPanel";
-import RightPanel from "../components/RightPanel";
 import Header from "../components/Header";
-import Task from "../components/Task"; // برای نمایش در overlay باید ایمپورت شود
+import Task from "../components/Task";
+import TaskColumn from "../components/TaskColumn";
+
 import {
   DndContext,
-  DragOverlay, // 1. ایمپورت DragOverlay
+  DragOverlay,
   PointerSensor,
   KeyboardSensor,
   useSensor,
   useSensors,
-  closestCorners, // برای تشخیص بهتر نقطه رها شدن
+  closestCorners,
 } from "@dnd-kit/core";
+import { useTheme } from "@mui/material/styles";
 import useStore from "../store/store";
 
 const Dashboard = () => {
-  const { moveTask, inbox, boards } = useStore();
-  const [activeId, setActiveId] = useState(null); // 2. state برای نگهداری id تسک در حال درگ
+  const theme = useTheme();
+  const {
+    moveTask,
+    inbox,
+    boards,
+    addTaskToInbox,
+    toggleInboxTaskStatus,
+    toggleBoardTaskStatus,
+    editInboxTask,
+    theme: storeTheme,
+    themes,
+  } = useStore();
 
+  // --- State Management ---
+  const [taskTitle, setTaskTitle] = useState("");
+  const [editingTask, setEditingTask] = useState(null);
+  const [activeId, setActiveId] = useState(null);
+
+  // --- DnD Setup ---
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    }),
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(KeyboardSensor)
   );
 
-  // 3. تابعی برای پیدا کردن آبجکت تسک با استفاده از id
   const findTaskById = (id) => {
     const taskInInbox = inbox.find((t) => t.id === id);
     if (taskInInbox) return taskInInbox;
-
     for (const board of boards) {
       for (const category of board.categories) {
         const taskInCategory = category.tasks.find((t) => t.id === id);
@@ -42,63 +53,97 @@ const Dashboard = () => {
     }
     return null;
   };
-
   const activeTask = activeId ? findTaskById(activeId) : null;
 
-  // 4. تابع برای شروع درگ
-  const handleDragStart = (event) => {
-    setActiveId(event.active.id);
-  };
-
-  // 5. تابع برای پایان درگ (قبلی را اصلاح می‌کنیم)
-  const handleDragEnd = (event) => {
-    setActiveId(null); // در پایان، id فعال را ریست می‌کنیم
-
-    const { active, over } = event;
-    if (!over) return;
-
-    const taskId = active.id;
-    const dropZoneId = over.id;
-
-    const { inbox, boards } = useStore.getState();
-    let from = null;
-    
-    if (inbox.find(t => t.id === taskId)) {
-      from = { type: 'inbox' };
+  // --- Unified Handlers ---
+  const handleToggleTask = (taskId) => {
+    const isInboxTask = inbox.some((t) => t.id === taskId);
+    if (isInboxTask) {
+      toggleInboxTaskStatus(taskId);
     } else {
       for (const board of boards) {
         for (const category of board.categories) {
-          if (category.tasks.find(t => t.id === taskId)) {
-            from = { type: 'category', id: category.id };
+          if (category.tasks.some((t) => t.id === taskId)) {
+            toggleBoardTaskStatus(board.id, category.id, taskId);
+            break;
+          }
+        }
+      }
+    }
+  };
+
+  const handleAddTask = () => {
+    if (taskTitle.trim() === "") return;
+    const newTask = { id: Date.now(), title: taskTitle, status: "in-progress" };
+    addTaskToInbox(newTask);
+    setTaskTitle("");
+  };
+
+  const handleSaveEdit = (taskId, newTitle) => {
+    if (!editingTask) return;
+    const isInboxTask = inbox.some((t) => t.id === taskId);
+    if (isInboxTask) {
+      editInboxTask(taskId, newTitle);
+    } else {
+      console.log(`Editing board task ${taskId} to "${newTitle}" (function not implemented in store)`);
+    }
+    setEditingTask(null);
+  };
+  
+  const handleDragStart = (event) => setActiveId(event.active.id);
+  const handleDragEnd = (event) => {
+    setActiveId(null);
+    const { active, over } = event;
+    if (!over) return;
+    const taskId = active.id;
+    const dropZoneId = over.id;
+    const { inbox, boards } = useStore.getState();
+    let from = null;
+    if (inbox.find((t) => t.id === taskId)) {
+      from = { type: "inbox" };
+    } else {
+      for (const board of boards) {
+        for (const category of board.categories) {
+          if (category.tasks.find((t) => t.id === taskId)) {
+            from = { type: "category", id: category.id };
             break;
           }
         }
         if (from) break;
       }
     }
-    
-    if (!from || (from.id === dropZoneId && from.type !== 'inbox')) {
-      return;
-    }
-
+    if (!from) return;
     let to = null;
-    if (dropZoneId === 'inbox') {
-      to = { type: 'inbox' };
-    } else if (dropZoneId.startsWith('category-')) {
-      to = { type: 'category', id: parseInt(dropZoneId.split('-')[1]) };
+    if (dropZoneId === "inbox") {
+      to = { type: "inbox" };
+    } else if (dropZoneId.startsWith("category-")) {
+      to = { type: "category", id: parseInt(dropZoneId.split("-")[1]) };
     }
-    
-    if (from && to) {
+    if (from && to && !(from.type === to.type && from.id === to.id)) {
       moveTask({ taskId, from, to });
     }
   };
 
+  // --- Data Structure for Rendering ---
+  const board = boards[0];
+  const muiTheme = themes[storeTheme];
+  const allColumns = [
+    { id: "inbox", name: "Inbox", type: "inbox", tasks: inbox },
+    ...board.categories.map((category) => ({
+      id: `category-${category.id}`,
+      name: category.name,
+      type: "category",
+      tasks: category.tasks,
+    })),
+  ];
+
+  // --- Render ---
   return (
     <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
       <Header />
       <DndContext
         sensors={sensors}
-        onDragStart={handleDragStart} // 6. اضافه کردن onDragStart
+        onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         collisionDetection={closestCorners}
       >
@@ -112,18 +157,42 @@ const Dashboard = () => {
             boxSizing: "border-box",
           }}
         >
-          <LeftPanel />
-          <RightPanel />
-        </Box>
-        {/* 7. اضافه کردن DragOverlay */}
-        <DragOverlay>
-          {activeTask ? (
-            <Task
-              task={activeTask}
-              onToggle={() => {}} // در overlay نیازی به toggle نیست
-              isOverlay // یک پراپ برای استایل‌دهی متفاوت
+          {allColumns.map((column) => (
+            <TaskColumn
+              key={column.id}
+              column={column}
+              onToggleTask={handleToggleTask}
+              onEditTask={setEditingTask}
+              editingTask={editingTask}
+              onAddTask={handleAddTask}
+              newTaskTitle={taskTitle}
+              onNewTaskTitleChange={(e) => setTaskTitle(e.target.value)}
+              onCancelAdd={() => setTaskTitle("")}
+              onSaveEdit={handleSaveEdit}
+              onCancelEdit={() => setEditingTask(null)}
             />
-          ) : null}
+          ))}
+        </Box>
+
+        {/* --- Backdrop --- */}
+        {/* ✅ این بخش جدید اضافه شده است */}
+        {editingTask && (
+          <Box
+            onClick={() => setEditingTask(null)} // با کلیک روی بک‌دراپ، ویرایش لغو می‌شود
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              bgcolor: "rgba(0, 0, 0, 0.5)", // رنگ تار با شفافیت
+              zIndex: 9, // زیر فرم ویرایش (zIndex: 10) و بالای محتوای اصلی
+            }}
+          />
+        )}
+
+        <DragOverlay>
+          {activeTask ? <Task task={activeTask} onToggle={() => {}} isOverlay /> : null}
         </DragOverlay>
       </DndContext>
     </Box>
