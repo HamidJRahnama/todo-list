@@ -2,10 +2,6 @@ import { IsString, IsOptional, IsMongoId, IsIn, IsDateString } from "class-valid
 
 export class UpdateTaskDto {
   @IsOptional()
-  @IsMongoId()
-  categoryId?: string;
-
-  @IsOptional()
   @IsString()
   title?: string;
 
@@ -14,7 +10,7 @@ export class UpdateTaskDto {
   description?: string;
 
   @IsOptional()
-  @IsIn(["todo", "in-progress", "done", "paused"])
+  @IsIn(["pending", "done", "pause"])
   status?: string;
 
   @IsOptional()
@@ -24,4 +20,20 @@ export class UpdateTaskDto {
   @IsOptional()
   @IsDateString()
   dueDate?: string;
+
+  @IsOptional()
+  @IsIn(["inbox", "board"])
+  type?: string;
+
+  @IsOptional()
+  @IsMongoId()
+  boardId?: string;
+
+  @IsOptional()
+  @IsMongoId()
+  listId?: string;
+
+  @IsOptional()
+  @IsMongoId()
+  userId?: string; // برای تغییر مالکیت تسک در آپدیت (اختیاری)
 }

@@ -19,7 +19,7 @@ export const getTaskByIdController = async (req: Request, res: Response) => {
   try {
     const userId = req["userId"];
     const id = req.params.id;
-    if (!id) return res.status(400).json({ message: "Category ID is required" });
+    if (!id) return res.status(400).json({ message: "Task  ID is required" });
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
     const task = await taskService.getTaskById(id, userId);
@@ -46,7 +46,7 @@ export const updateTaskController = async (req: Request, res: Response) => {
   try {
     const userId = req["userId"];
     const id = req.params.id;
-    if (!id) return res.status(400).json({ message: "Category ID is required" });
+    if (!id) return res.status(400).json({ message: "Task  ID is required" });
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
     const task = await taskService.updateTask(id, userId, req.body);
@@ -60,7 +60,7 @@ export const deleteTaskController = async (req: Request, res: Response) => {
   try {
     const userId = req["userId"];
     const id = req.params.id;
-    if (!id) return res.status(400).json({ message: "Category ID is required" });
+    if (!id) return res.status(400).json({ message: "Task  ID is required" });
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
     await taskService.deleteTask(id, userId);

@@ -1,5 +1,7 @@
-import doteenv from "dotenv";
-doteenv.config()
+import dotenv from "dotenv";
+dotenv.config();
+console.log(process.env.MONGO_URL)
+
 
 
 import express from "express";

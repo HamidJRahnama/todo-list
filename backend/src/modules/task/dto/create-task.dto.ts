@@ -1,9 +1,6 @@
-import { IsString, IsOptional, IsMongoId, IsIn, IsDateString } from "class-validator";
+import { IsDateString, IsIn, IsMongoId, IsOptional, IsString } from "class-validator";
 
 export class CreateTaskDto {
-  @IsMongoId()
-  categoryId: string;
-
   @IsString()
   title: string;
 
@@ -12,7 +9,7 @@ export class CreateTaskDto {
   description?: string;
 
   @IsOptional()
-  @IsIn(["todo", "in-progress", "done", "paused"])
+  @IsIn(["pending", "done", "pause"])
   status?: string;
 
   @IsOptional()
@@ -22,4 +19,19 @@ export class CreateTaskDto {
   @IsOptional()
   @IsDateString()
   dueDate?: string;
+
+  @IsOptional()
+  @IsIn(["inbox", "board"])
+  type?: string;
+
+  @IsOptional()
+  @IsMongoId()
+  boardId?: string;
+
+  @IsOptional()
+  @IsMongoId()
+  listId?: string;
+
+  @IsMongoId()
+  userId: string; // کاربر صاحب تسک
 }
