@@ -6,6 +6,7 @@ import useStore from "./store/store";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard.jsx";
+import TestTablePage from "./pages/TestTablePage.jsx";
 
 function App() {
   const { theme, themes } = useStore();  
@@ -24,6 +25,7 @@ function App() {
       >
         <Router>
           <Routes>
+            <Route path="/table" element={<TestTablePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route
