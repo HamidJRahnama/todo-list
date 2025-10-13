@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const taskSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -11,9 +11,9 @@ const taskSchema = new mongoose.Schema({
   type: { type: String, enum: ["inbox", "board"], default: "inbox" },
 
   // روابط
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  boardId: { type: mongoose.Schema.Types.ObjectId, ref: "Board", default: null },
-  listId: { type: mongoose.Schema.Types.ObjectId, ref: "List", default: null },
+  userId: { type: Types.ObjectId, ref: "User", required: true },
+  boardId: { type: Types.ObjectId, ref: "Board", default: null },
+  listId: { type: Types.ObjectId, ref: "List", default: null },
 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

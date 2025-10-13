@@ -1,3 +1,5 @@
+// I should create types for task body
+import mongoose, { Types } from "mongoose";
 import Tasks from "./task.model.ts";
 
 /**
@@ -9,10 +11,11 @@ export const getTasks = async (
   type?: "inbox" | "board",
   boardId?: string
 ) => {
-  const query: any = { userId };
+  const query: any = { userId: new mongoose.Types.ObjectId(userId) };
   if (type) query.type = type;
-  if (boardId) query.boardId = boardId;
-  return Tasks.find(query).sort({ createdAt: -1 });
+  if (boardId) query.boardId = new mongoose.Types.ObjectId(boardId);
+  const results =await Tasks.find(query).sort({ createdAt: -1 });
+  return results;
 };
 
 /**
@@ -27,18 +30,23 @@ export const getTaskById = async (id: string, userId: string) => {
 /**
  * ایجاد یک تسک جدید
  */
+
 export const createTask = async (userId: string, data: any) => {
-  const task = new Tasks({ ...data, userId });
+  // اینجا ما به صورت صریح رشته را به ObjectId تبدیل می‌کنیم
+  const task = new Tasks({ 
+    ...data, 
+    userId: new mongoose.Types.ObjectId(userId) // <-- این تغییر کلیدی است
+  });
   return task.save();
 };
-
 /**
  * بروزرسانی یک تسک
  */
 export const updateTask = async (id: string, userId: string, data: any) => {
-  const task = await Tasks.findOneAndUpdate({ _id: id, userId }, data, {
-    new: true,
-  });
+  const task = await Tasks.findOneAndUpdate(
+    { _id: id, userId },
+     data, 
+     {new: true,});
   if (!task) throw new Error("Task not found or unauthorized");
   return task;
 };

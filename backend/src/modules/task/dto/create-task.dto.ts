@@ -31,7 +31,4 @@ export class CreateTaskDto {
   @IsOptional()
   @IsMongoId()
   listId?: string;
-
-  @IsMongoId()
-  userId: string; // کاربر صاحب تسک
 }
